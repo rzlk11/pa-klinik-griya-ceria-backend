@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import dotenv from 'dotenv';
+import fileUpload from 'express-fileupload';
 import db from './config/Database.js';
 import SequelizeStore from 'connect-session-sequelize';
 import UserRoutes from './routes/UserRoutes.js';
@@ -47,6 +48,8 @@ app.use(session({
 }));
 
 app.use(express.json());
+app.use(fileUpload());
+app.use(express.static("public"));
 
 app.use(UserRoutes);
 app.use(PasienRoutes);

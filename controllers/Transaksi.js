@@ -2,6 +2,8 @@ import Transaksi from "../models/TransaksiModel.js";
 import Pasien from "../models/PasienModel.js";
 import PelayananKesehatan from "../models/PelayananKesehatanModel.js";
 import ResepObat from "../models/ResepObatModel.js";
+import path from "path";
+import fs from "fs";
 
 export const getTransaksi = async (req, res) => {
   try {
@@ -38,7 +40,34 @@ export const getTransaksiById = async (req, res) => {
 
 export const createTransaksi = async (req, res) => {
   try {
-    await Transaksi.create(req.body);
+    let url = null;
+    if (req.files !== null && req.files.bukti_transaksi) {
+      const file = req.files.bukti_transaksi;
+      const fileSize = file.data.length;
+      const ext = path.extname(file.name);
+      const fileName = file.md5 + ext;
+      const allowedType = ['.png','.jpg','.jpeg'];
+      
+      if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({msg: "Invalid Images"});
+      if (fileSize > 5000000) return res.status(422).json({msg: "Image must be less than 5 MB"});
+
+      file.mv(`./public/images/${fileName}`, (err)=>{
+          if(err) return res.status(500).json({msg: err.message});
+      });
+      url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+    }
+
+    const { id_pasien, id_pelayanan, id_resep, tanggal_transaksi, total_biaya, status_pembayaran } = req.body;
+
+    await Transaksi.create({
+      id_pasien: id_pasien || null,
+      id_pelayanan: id_pelayanan || null,
+      id_resep: id_resep || null,
+      tanggal_transaksi,
+      total_biaya,
+      status_pembayaran,
+      bukti_transaksi: url
+    });
     res.status(201).json({ msg: "Transaksi berhasil dibuat!" });
   } catch (error) {
     res.status(400).json({ msg: error.message });
@@ -52,7 +81,45 @@ export const updateTransaksi = async (req, res) => {
     });
     if (!transaksi)
       return res.status(404).json({ msg: "Transaksi tidak ditemukan!" });
-    await Transaksi.update(req.body, {
+
+    let url = transaksi.bukti_transaksi;
+
+    if (req.files !== null && req.files.bukti_transaksi) {
+      const file = req.files.bukti_transaksi;
+      const fileSize = file.data.length;
+      const ext = path.extname(file.name);
+      const fileName = file.md5 + ext;
+      const allowedType = ['.png','.jpg','.jpeg'];
+      
+      if (!allowedType.includes(ext.toLowerCase())) return res.status(422).json({msg: "Invalid Images"});
+      if (fileSize > 5000000) return res.status(422).json({msg: "Image must be less than 5 MB"});
+
+      if (transaksi.bukti_transaksi) {
+        const splitUrl = transaksi.bukti_transaksi.split('/');
+        const oldImage = splitUrl[splitUrl.length - 1];
+        const filepath = `./public/images/${oldImage}`;
+        if (fs.existsSync(filepath)) {
+          fs.unlinkSync(filepath);
+        }
+      }
+
+      file.mv(`./public/images/${fileName}`, (err)=>{
+          if(err) return res.status(500).json({msg: err.message});
+      });
+      url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
+    }
+
+    const { id_pasien, id_pelayanan, id_resep, tanggal_transaksi, total_biaya, status_pembayaran } = req.body;
+
+    await Transaksi.update({
+      id_pasien: id_pasien || null,
+      id_pelayanan: id_pelayanan || null,
+      id_resep: id_resep || null,
+      tanggal_transaksi,
+      total_biaya,
+      status_pembayaran,
+      bukti_transaksi: url
+    }, {
       where: { id_transaksi: req.params.id },
     });
     res.status(200).json({ msg: "Transaksi berhasil diupdate!" });
@@ -68,6 +135,16 @@ export const deleteTransaksi = async (req, res) => {
     });
     if (!transaksi)
       return res.status(404).json({ msg: "Transaksi tidak ditemukan!" });
+
+    if (transaksi.bukti_transaksi) {
+      const splitUrl = transaksi.bukti_transaksi.split('/');
+      const oldImage = splitUrl[splitUrl.length - 1];
+      const filepath = `./public/images/${oldImage}`;
+      if (fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath);
+      }
+    }
+
     await Transaksi.destroy({ where: { id_transaksi: req.params.id } });
     res.status(200).json({ msg: "Transaksi berhasil dihapus!" });
   } catch (error) {

@@ -1,8 +1,17 @@
 import RekamMedis from "../models/RekamMedisModel.js";
+import Pasien from "../models/PasienModel.js";
+import Dokter from "../models/DokterModel.js";
+import PelayananKesehatan from "../models/PelayananKesehatanModel.js";
 
 export const getRekamMedis = async (req, res) => {
   try {
-    const response = await RekamMedis.findAll();
+    const response = await RekamMedis.findAll({
+      include: [
+        { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
+        { model: Dokter, as: "dokter", attributes: ["nama_dokter"] },
+        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] }
+      ]
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });

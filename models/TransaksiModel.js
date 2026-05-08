@@ -36,6 +36,10 @@ const Transaksi = db.define('transaksi', {
     type: DataTypes.ENUM('Lunas', 'Belum lunas'),
     allowNull: false,
   },
+  bukti_transaksi: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   freezeTableName: true,
 });
