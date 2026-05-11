@@ -1,8 +1,11 @@
 import DetailResepObat from "../models/DetailResepObatModel.js";
+import Obat from "../models/ObatModel.js";
 
 export const getDetailResepObat = async (req, res) => {
   try {
-    const response = await DetailResepObat.findAll();
+    const response = await DetailResepObat.findAll({
+      include: [{ model: Obat, as: "obat" }]
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -13,6 +16,7 @@ export const getDetailResepObatById = async (req, res) => {
   try {
     const detail = await DetailResepObat.findOne({
       where: { id_detail_resep: req.params.id },
+      include: [{ model: Obat, as: "obat" }]
     });
     if (!detail)
       return res.status(404).json({ msg: "Detail resep tidak ditemukan!" });

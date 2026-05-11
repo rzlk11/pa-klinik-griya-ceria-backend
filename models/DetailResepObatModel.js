@@ -1,5 +1,6 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
+import Obat from "./ObatModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -36,5 +37,8 @@ const DetailResepObat = db.define('detail_resep_obat', {
 }, {
   freezeTableName: true,
 });
+
+DetailResepObat.belongsTo(Obat, { foreignKey: "id_obat", as: "obat" });
+Obat.hasMany(DetailResepObat, { foreignKey: "id_obat", as: "detail_resep" });
 
 export default DetailResepObat;

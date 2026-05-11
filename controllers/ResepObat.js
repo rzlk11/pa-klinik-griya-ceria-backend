@@ -1,5 +1,6 @@
 import ResepObat from "../models/ResepObatModel.js";
 import DetailResepObat from "../models/DetailResepObatModel.js";
+import Obat from "../models/ObatModel.js";
 
 export const getResepObat = async (req, res) => {
   try {
@@ -8,6 +9,7 @@ export const getResepObat = async (req, res) => {
         {
           model: DetailResepObat,
           as: "details",
+          include: [{ model: Obat, as: "obat" }]
         },
       ],
     });
@@ -25,6 +27,7 @@ export const getResepObatById = async (req, res) => {
         {
           model: DetailResepObat,
           as: "details",
+          include: [{ model: Obat, as: "obat" }]
         },
       ],
     });

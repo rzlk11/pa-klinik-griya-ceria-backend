@@ -2,6 +2,8 @@ import Pasien from "../models/PasienModel.js";
 import OrangTua from "../models/OrangTuaModel.js";
 import ResepObat from "../models/ResepObatModel.js";
 import DetailResepObat from "../models/DetailResepObatModel.js";
+import RekamMedis from "../models/RekamMedisModel.js";
+import Transaksi from "../models/TransaksiModel.js";
 
 export const getPasien = async (req, res) => {
   try {
@@ -54,6 +56,16 @@ export const getPasienById = async (req, res) => {
               required: false,
             },
           ],
+        },
+        {
+          model: RekamMedis,
+          as: "rekam_medis",
+          required: false,
+        },
+        {
+          model: Transaksi,
+          as: "transaksi",
+          required: false,
         },
       ],
     });

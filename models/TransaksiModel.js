@@ -46,6 +46,7 @@ const Transaksi = db.define('transaksi', {
 
 // Associations
 Transaksi.belongsTo(Pasien, { foreignKey: "id_pasien", as: "pasien" });
+Pasien.hasMany(Transaksi, { foreignKey: "id_pasien", as: "transaksi" });
 Transaksi.belongsTo(PelayananKesehatan, { foreignKey: "id_pelayanan", as: "pelayanan" });
 Transaksi.belongsTo(ResepObat, { foreignKey: "id_resep", as: "resep" });
 
