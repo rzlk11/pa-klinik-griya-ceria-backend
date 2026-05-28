@@ -22,6 +22,11 @@ export const getRekamMedisById = async (req, res) => {
   try {
     const rekam = await RekamMedis.findOne({
       where: { id_rekam_medis: req.params.id },
+      include: [
+        { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
+        { model: Dokter, as: "dokter", attributes: ["nama_dokter"] },
+        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] }
+      ]
     });
     if (!rekam)
       return res.status(404).json({ msg: "Rekam medis tidak ditemukan!" });

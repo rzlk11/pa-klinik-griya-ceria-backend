@@ -36,6 +36,16 @@ const RekamMedis = db.define('rekam_medis', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
+  berat_badan: {
+    type: DataTypes.DECIMAL(5, 2),
+    allowNull: true,
+    defaultValue: null,
+  },
+  suhu: {
+    type: DataTypes.DECIMAL(4, 1),
+    allowNull: true,
+    defaultValue: null,
+  },
 }, {
   freezeTableName: true,
 });
