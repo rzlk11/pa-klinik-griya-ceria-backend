@@ -8,7 +8,6 @@ import SequelizeStore from 'connect-session-sequelize';
 import UserRoutes from './routes/UserRoutes.js';
 import PasienRoutes from './routes/PasienRoutes.js';
 import AuthRoutes from './routes/AuthRoutes.js';
-import OrangTuaRoutes from './routes/OrangTuaRoutes.js';
 import DetailResepObatRoutes from './routes/DetailResepObatRoutes.js';
 import DokterRoutes from './routes/DokterRoutes.js';
 import ObatRoutes from './routes/ObatRoutes.js';
@@ -28,7 +27,7 @@ const store = new sessionStore({
 });
 
 (async() => {
-    await db.sync();
+    await db.sync({ alter: true });
 })();
 
 app.use(cors({
@@ -54,7 +53,6 @@ app.use(express.static("public"));
 app.use(UserRoutes);
 app.use(PasienRoutes);
 app.use(AuthRoutes);
-app.use(OrangTuaRoutes);
 app.use(DetailResepObatRoutes);
 app.use(DokterRoutes);
 app.use(ObatRoutes);
