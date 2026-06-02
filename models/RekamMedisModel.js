@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import Pasien from "./PasienModel.js";
-import Dokter from "./DokterModel.js";
+import Terapis from "./TerapisModel.js";
 import PelayananKesehatan from "./PelayananKesehatanModel.js";
 
 const { DataTypes } = Sequelize;
@@ -16,7 +16,7 @@ const RekamMedis = db.define('rekam_medis', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  id_dokter: {
+  id_terapis: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
@@ -54,9 +54,9 @@ const RekamMedis = db.define('rekam_medis', {
 RekamMedis.belongsTo(Pasien, { foreignKey: "id_pasien", as: "pasien" });
 Pasien.hasMany(RekamMedis, { foreignKey: "id_pasien", as: "rekam_medis" });
 
-// Association RekamMedis <-> Dokter
-RekamMedis.belongsTo(Dokter, { foreignKey: "id_dokter", as: "dokter" });
-Dokter.hasMany(RekamMedis, { foreignKey: "id_dokter", as: "rekam_medis" });
+// Association RekamMedis <-> Terapis
+RekamMedis.belongsTo(Terapis, { foreignKey: "id_terapis", as: "terapis" });
+Terapis.hasMany(RekamMedis, { foreignKey: "id_terapis", as: "rekam_medis" });
 
 // Association RekamMedis <-> PelayananKesehatan
 RekamMedis.belongsTo(PelayananKesehatan, { foreignKey: "id_pelayanan", as: "pelayanan" });

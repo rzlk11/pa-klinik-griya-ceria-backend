@@ -30,7 +30,7 @@ const DetailResepObat = db.define('detail_resep_obat', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  catatan_dokter: {
+  catatan_terapis: {
     type: DataTypes.TEXT,
     allowNull: true,
   },

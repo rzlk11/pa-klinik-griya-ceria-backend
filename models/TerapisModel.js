@@ -3,13 +3,13 @@ import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const Dokter = db.define('dokter', {
-  id_dokter: {
+const Terapis = db.define('terapis', {
+  id_terapis: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  nama_dokter: {
+  nama_terapis: {
     type: DataTypes.STRING,
     allowNull: false,
   },
@@ -29,4 +29,4 @@ const Dokter = db.define('dokter', {
   freezeTableName: true,
 });
 
-export default Dokter;
+export default Terapis;

@@ -1,6 +1,6 @@
 import RekamMedis from "../models/RekamMedisModel.js";
 import Pasien from "../models/PasienModel.js";
-import Dokter from "../models/DokterModel.js";
+import Terapis from "../models/TerapisModel.js";
 import PelayananKesehatan from "../models/PelayananKesehatanModel.js";
 
 export const getRekamMedis = async (req, res) => {
@@ -8,7 +8,7 @@ export const getRekamMedis = async (req, res) => {
     const response = await RekamMedis.findAll({
       include: [
         { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
-        { model: Dokter, as: "dokter", attributes: ["nama_dokter"] },
+        { model: Terapis, as: "terapis", attributes: ["nama_terapis"] },
         { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] }
       ]
     });
@@ -24,7 +24,7 @@ export const getRekamMedisById = async (req, res) => {
       where: { id_rekam_medis: req.params.id },
       include: [
         { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
-        { model: Dokter, as: "dokter", attributes: ["nama_dokter"] },
+        { model: Terapis, as: "terapis", attributes: ["nama_terapis"] },
         { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] }
       ]
     });
