@@ -2,6 +2,7 @@ import Transaksi from "../models/TransaksiModel.js";
 import Pasien from "../models/PasienModel.js";
 import PelayananKesehatan from "../models/PelayananKesehatanModel.js";
 import ResepObat from "../models/ResepObatModel.js";
+import Terapis from "../models/TerapisModel.js";
 import path from "path";
 import fs from "fs";
 
@@ -12,6 +13,7 @@ export const getTransaksi = async (req, res) => {
         { model: Pasien, as: "pasien" },
         { model: PelayananKesehatan, as: "pelayanan" },
         { model: ResepObat, as: "resep" },
+        { model: Terapis, as: "terapis" },
       ],
     });
     res.status(200).json(response);
@@ -28,6 +30,7 @@ export const getTransaksiById = async (req, res) => {
         { model: Pasien, as: "pasien" },
         { model: PelayananKesehatan, as: "pelayanan" },
         { model: ResepObat, as: "resep" },
+        { model: Terapis, as: "terapis" },
       ],
     });
     if (!transaksi)
@@ -57,12 +60,13 @@ export const createTransaksi = async (req, res) => {
       url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
     }
 
-    const { id_pasien, id_pelayanan, id_resep, tanggal_transaksi, total_biaya, status_pembayaran } = req.body;
+    const { id_pasien, id_pelayanan, id_resep, id_terapis, tanggal_transaksi, total_biaya, status_pembayaran } = req.body;
 
     await Transaksi.create({
       id_pasien: id_pasien || null,
       id_pelayanan: id_pelayanan || null,
       id_resep: id_resep || null,
+      id_terapis: id_terapis || null,
       tanggal_transaksi,
       total_biaya,
       status_pembayaran,
@@ -109,12 +113,13 @@ export const updateTransaksi = async (req, res) => {
       url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
     }
 
-    const { id_pasien, id_pelayanan, id_resep, tanggal_transaksi, total_biaya, status_pembayaran } = req.body;
+    const { id_pasien, id_pelayanan, id_resep, id_terapis, tanggal_transaksi, total_biaya, status_pembayaran } = req.body;
 
     await Transaksi.update({
       id_pasien: id_pasien || null,
       id_pelayanan: id_pelayanan || null,
       id_resep: id_resep || null,
+      id_terapis: id_terapis || null,
       tanggal_transaksi,
       total_biaya,
       status_pembayaran,

@@ -25,6 +25,10 @@ const Terapis = db.define('terapis', {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  kode_warna: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 }, {
   freezeTableName: true,
 });
