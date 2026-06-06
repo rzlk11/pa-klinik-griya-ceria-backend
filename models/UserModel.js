@@ -35,6 +35,14 @@ const Users = db.define('users', {
             notEmpty: true,
         }
     },
+    role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "admin",
+        validate:{
+            notEmpty: true,
+        }
+    },
 }, {
     freezeTableName: true,
 });

@@ -5,7 +5,7 @@ import argon from "argon2";
 export const getUsers = async (req, res) => {
   try {
     const response = await Users.findAll({
-      attributes: ["uuid", "name", "email"],
+      attributes: ["uuid", "name", "email", "role"],
     });
     res.status(200).json(response);
   } catch (error) {
@@ -19,7 +19,7 @@ export const getUserById = async (req, res) => {
       where: {
         uuid: req.params.id,
       },
-      attributes: ["uuid", "name", "email"],
+      attributes: ["uuid", "name", "email", "role"],
     });
     res.status(200).json(response);
   } catch (error) {
@@ -28,7 +28,7 @@ export const getUserById = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { name, email, password, confPassword } = req.body;
+  const { name, email, password, confPassword, role } = req.body;
 
   if (password !== confPassword)
     return res
@@ -40,6 +40,7 @@ export const createUser = async (req, res) => {
       name: name,
       email: email,
       password: hashedPassword,
+      role: role || "admin",
     });
 
     res.status(201).json({ msg: "Register berhasil!" });
@@ -49,7 +50,7 @@ export const createUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const { name, email, password, confPassword } = req.body;
+  const { name, email, password, confPassword, role } = req.body;
   const user = await Users.findOne({
     where: {
       uuid: req.params.id,
@@ -72,6 +73,7 @@ export const updateUser = async (req, res) => {
         name: name,
         email: email,
         password: hashedPassword,
+        role: role || "admin",
       },
       {
         where: {
