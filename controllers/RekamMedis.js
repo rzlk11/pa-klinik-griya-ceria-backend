@@ -2,6 +2,9 @@ import RekamMedis from "../models/RekamMedisModel.js";
 import Pasien from "../models/PasienModel.js";
 import Terapis from "../models/TerapisModel.js";
 import PelayananKesehatan from "../models/PelayananKesehatanModel.js";
+import ResepObat from "../models/ResepObatModel.js";
+import DetailResepObat from "../models/DetailResepObatModel.js";
+import Obat from "../models/ObatModel.js";
 
 export const getRekamMedis = async (req, res) => {
   try {
@@ -9,7 +12,18 @@ export const getRekamMedis = async (req, res) => {
       include: [
         { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
         { model: Terapis, as: "terapis", attributes: ["nama_terapis"] },
-        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] }
+        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] },
+        { 
+          model: ResepObat, 
+          as: "resep_obat",
+          include: [
+            {
+              model: DetailResepObat,
+              as: "details",
+              include: [{ model: Obat, as: "obat" }]
+            }
+          ]
+        }
       ]
     });
     res.status(200).json(response);
@@ -25,7 +39,18 @@ export const getRekamMedisById = async (req, res) => {
       include: [
         { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
         { model: Terapis, as: "terapis", attributes: ["nama_terapis"] },
-        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] }
+        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] },
+        { 
+          model: ResepObat, 
+          as: "resep_obat",
+          include: [
+            {
+              model: DetailResepObat,
+              as: "details",
+              include: [{ model: Obat, as: "obat" }]
+            }
+          ]
+        }
       ]
     });
     if (!rekam)
