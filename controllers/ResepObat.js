@@ -40,7 +40,7 @@ export const getResepObatById = async (req, res) => {
 
 export const createResepObat = async (req, res) => {
   try {
-    await ResepObat.create(req.body, {
+    const newResep = await ResepObat.create(req.body, {
         include: [
         {
           model: DetailResepObat,
@@ -48,7 +48,7 @@ export const createResepObat = async (req, res) => {
         }
       ]
     });
-    res.status(201).json({ msg: "Resep obat berhasil dibuat!" });
+    res.status(201).json({ msg: "Resep obat berhasil dibuat!", data: newResep });
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }

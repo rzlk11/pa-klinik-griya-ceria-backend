@@ -13,6 +13,10 @@ const Obat = db.define('obat', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  kekuatan: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   jenis: {
     type: DataTypes.ENUM('Tablet', 'Kapsul', 'Sirup', 'Salep', 'Lainnya'),
     allowNull: false,
