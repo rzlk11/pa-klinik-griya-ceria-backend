@@ -15,6 +15,8 @@ import PelayananKesehatanRoutes from './routes/PelayananKesehatanRoutes.js';
 import RekamMedisRoutes from './routes/RekamMedisRoutes.js';
 import TransaksiRoutes from './routes/TransaksiRoutes.js';
 import ResepObatRoutes from './routes/ResepObatRoutes.js';
+import VaksinRoutes from './routes/VaksinRoutes.js';
+import AntrianRoutes from './routes/AntrianRoutes.js';
 
 dotenv.config();
 
@@ -60,6 +62,8 @@ app.use(PelayananKesehatanRoutes);
 app.use(RekamMedisRoutes);
 app.use(TransaksiRoutes);
 app.use(ResepObatRoutes);
+app.use(VaksinRoutes);
+app.use(AntrianRoutes);
 
 store.sync();
 

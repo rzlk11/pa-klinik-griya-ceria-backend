@@ -12,7 +12,7 @@ export const getRekamMedis = async (req, res) => {
       include: [
         { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
         { model: Terapis, as: "terapis", attributes: ["nama_terapis"] },
-        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] },
+        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan", "harga"] },
         { 
           model: ResepObat, 
           as: "resep_obat",
@@ -39,7 +39,7 @@ export const getRekamMedisById = async (req, res) => {
       include: [
         { model: Pasien, as: "pasien", attributes: ["name", "gender", "date_of_birth"] },
         { model: Terapis, as: "terapis", attributes: ["nama_terapis"] },
-        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan"] },
+        { model: PelayananKesehatan, as: "pelayanan", attributes: ["nama_pelayanan", "harga"] },
         { 
           model: ResepObat, 
           as: "resep_obat",
@@ -63,8 +63,8 @@ export const getRekamMedisById = async (req, res) => {
 
 export const createRekamMedis = async (req, res) => {
   try {
-    await RekamMedis.create(req.body);
-    res.status(201).json({ msg: "Rekam medis berhasil dibuat!" });
+    const newRekam = await RekamMedis.create(req.body);
+    res.status(201).json({ msg: "Rekam medis berhasil dibuat!", data: newRekam });
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }

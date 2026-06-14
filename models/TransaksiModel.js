@@ -37,10 +37,6 @@ const Transaksi = db.define('transaksi', {
     type: DataTypes.DECIMAL(10,2),
     allowNull: false,
   },
-  status_pembayaran: {
-    type: DataTypes.ENUM('Lunas', 'Belum lunas'),
-    allowNull: false,
-  },
   bukti_transaksi: {
     type: DataTypes.STRING,
     allowNull: true,

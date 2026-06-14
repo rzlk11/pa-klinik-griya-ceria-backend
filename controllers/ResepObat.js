@@ -1,6 +1,8 @@
 import ResepObat from "../models/ResepObatModel.js";
 import DetailResepObat from "../models/DetailResepObatModel.js";
 import Obat from "../models/ObatModel.js";
+import RekamMedis from "../models/RekamMedisModel.js";
+import Pasien from "../models/PasienModel.js";
 
 export const getResepObat = async (req, res) => {
   try {
@@ -11,6 +13,11 @@ export const getResepObat = async (req, res) => {
           as: "details",
           include: [{ model: Obat, as: "obat" }]
         },
+        {
+          model: RekamMedis,
+          as: "rekam_medis_detail",
+          include: [{ model: Pasien, as: "pasien" }]
+        }
       ],
     });
     res.status(200).json(response);
@@ -29,6 +36,11 @@ export const getResepObatById = async (req, res) => {
           as: "details",
           include: [{ model: Obat, as: "obat" }]
         },
+        {
+          model: RekamMedis,
+          as: "rekam_medis_detail",
+          include: [{ model: Pasien, as: "pasien" }]
+        }
       ],
     });
     if (!resep) return res.status(404).json({ msg: "Resep obat tidak ditemukan!" });
