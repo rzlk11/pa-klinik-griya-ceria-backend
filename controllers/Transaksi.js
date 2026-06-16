@@ -60,13 +60,14 @@ export const createTransaksi = async (req, res) => {
       url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
     }
 
-    const { id_pasien, id_pelayanan, id_resep, id_terapis, tanggal_transaksi, total_biaya } = req.body;
+    const { id_pasien, id_pelayanan, id_resep, id_terapis, tanggal_transaksi, total_biaya, id_antrian } = req.body;
 
     await Transaksi.create({
       id_pasien: id_pasien || null,
       id_pelayanan: id_pelayanan || null,
       id_resep: id_resep || null,
       id_terapis: id_terapis || null,
+      id_antrian: id_antrian || null,
       tanggal_transaksi,
       total_biaya,
       bukti_transaksi: url
@@ -112,15 +113,16 @@ export const updateTransaksi = async (req, res) => {
       url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
     }
 
-    const { id_pasien, id_pelayanan, id_resep, id_terapis, tanggal_transaksi, total_biaya } = req.body;
+    const { id_pasien, id_pelayanan, id_resep, id_terapis, tanggal_transaksi, total_biaya, id_antrian } = req.body || {};
 
     await Transaksi.update({
-      id_pasien: id_pasien || null,
-      id_pelayanan: id_pelayanan || null,
-      id_resep: id_resep || null,
-      id_terapis: id_terapis || null,
-      tanggal_transaksi,
-      total_biaya,
+      id_pasien: id_pasien || transaksi.id_pasien,
+      id_pelayanan: id_pelayanan || transaksi.id_pelayanan,
+      id_resep: id_resep || transaksi.id_resep,
+      id_terapis: id_terapis || transaksi.id_terapis,
+      id_antrian: id_antrian || transaksi.id_antrian,
+      tanggal_transaksi: tanggal_transaksi || transaksi.tanggal_transaksi,
+      total_biaya: total_biaya || transaksi.total_biaya,
       bukti_transaksi: url
     }, {
       where: { id_transaksi: req.params.id },

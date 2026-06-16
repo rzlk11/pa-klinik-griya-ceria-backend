@@ -4,6 +4,7 @@ import Pasien from "./PasienModel.js";
 import Terapis from "./TerapisModel.js";
 import PelayananKesehatan from "./PelayananKesehatanModel.js";
 import ResepObat from "./ResepObatModel.js";
+import Antrian from "./AntrianModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -22,6 +23,10 @@ const RekamMedis = db.define('rekam_medis', {
     allowNull: true,
   },
   id_pelayanan: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  id_antrian: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
@@ -66,5 +71,9 @@ PelayananKesehatan.hasMany(RekamMedis, { foreignKey: "id_pelayanan", as: "rekam_
 // Association RekamMedis <-> ResepObat
 RekamMedis.hasMany(ResepObat, { foreignKey: "id_rekam_medis", as: "resep_obat" });
 ResepObat.belongsTo(RekamMedis, { foreignKey: "id_rekam_medis", as: "rekam_medis_detail" });
+
+// Association RekamMedis <-> Antrian
+RekamMedis.belongsTo(Antrian, { foreignKey: "id_antrian", as: "antrian" });
+Antrian.hasOne(RekamMedis, { foreignKey: "id_antrian", as: "rekam_medis" });
 
 export default RekamMedis;
