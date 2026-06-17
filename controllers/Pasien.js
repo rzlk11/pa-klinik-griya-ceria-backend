@@ -110,7 +110,7 @@ export const createPasien = async (req, res) => {
       final_no_register = `${yy}.${sequence}.${initial}`;
     }
 
-    await Pasien.create({
+    const newPasien = await Pasien.create({
       no_register: final_no_register,
       name: name,
       date_of_birth: date_of_birth,
@@ -118,7 +118,7 @@ export const createPasien = async (req, res) => {
       nama_orang_tua: nama_orang_tua,
       no_telp_orang_tua: no_telp_orang_tua,
     });
-    res.status(201).json({ msg: "Data Pasien berhasil dibuat!" });
+    res.status(201).json({ msg: "Data Pasien berhasil dibuat!", data: newPasien });
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }

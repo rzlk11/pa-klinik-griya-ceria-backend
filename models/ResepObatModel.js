@@ -14,6 +14,10 @@ const ResepObat = db.define('resep_obat', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  resep_teks: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
   tanggal_resep: {
     type: DataTypes.DATEONLY,
     allowNull: false,
