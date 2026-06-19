@@ -43,7 +43,7 @@ export const createAntrian = async (req, res) => {
   const { id_pasien, id_terapis, id_pelayanan, id_vaksin, tanggal_antrian, keluhan, berat_badan, suhu, status_antrian } = req.body;
   try {
     const isVaksin = id_vaksin ? true : false;
-    let finalStatus = isVaksin ? 'Selesai' : (status_antrian || 'Menunggu');
+    let finalStatus = isVaksin ? 'Menunggu Obat' : (status_antrian || 'Menunggu');
 
     const antrian = await Antrian.create({
       id_pasien,
